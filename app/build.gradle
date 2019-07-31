@@ -1,0 +1,170 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.android['compileSdkVersion']
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        applicationId rootProject.ext.android.applicationId
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+                includeCompileClasspath = true
+            }
+        }
+        //打包时不加会有问题
+        useLibrary 'org.apache.http.legacy'
+    }
+
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+//签名
+    signingConfigs {
+        debug{
+            storeFile file("D:\\project\\user-client-android\\app\\user_client.jks")      //签名文件
+            storePassword "111111"
+            keyAlias "user_client"
+            keyPassword "111111"  //签名密码
+        }
+        release {
+            storeFile file("D:\\project\\user-client-android\\app\\user_client.jks")      //签名文件
+            storePassword "111111"
+            keyAlias "user_client"
+            keyPassword "111111"  //签名密码
+        }
+    }
+    buildTypes {
+        release {
+
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            // 移除无用的resource文件，前提minifyEnabled必须打开
+//            shrinkResources true
+            // ZipAlign优化
+            zipAlignEnabled true
+            // 设置混淆
+            minifyEnabled false
+            //加载默认混淆配置涵
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+
+            /**
+             * 打包导出apk时候的名字，或者各种服务的key配置等等
+             *       (gradle 3.0.0 以上)
+             * */
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+//                    ${variant.productFlavors[0].name}_
+                    outputFileName = "${"amap"}_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                }
+            }
+        }
+
+
+        debug {
+
+            //ZipAlign优化
+            zipAlignEnabled false
+            //设置混淆
+            minifyEnabled false
+            //加载默认混淆配置涵
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+
+    }
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+}
+//打包时间
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+
+
+}
+
+
+//def final base_server_url = rootProject.ext.url.uatUrl
+//def final ApplicationId = 'com.lingshenzhineng.kangarooloan'
+//def final app_name = '点师傅'
+//def final app_icon_str = '@mipmap/ic_launcher_loan'
+//def final umeng_appkey_value = '5ce211bf570df3e91e000cf3'
+//def final jpush_appkey_value = '8e60d076d415e341d087ed67'
+//def final jpush_channel_value = 'developer-default'
+//def final gaode_appkey_value = '107d3ec944baa557bac6e2081790c032'
+//
+///**
+// * 多渠道打包
+// * 1、applicationId      = 软件-包名
+// * 2、app_name           = 资源文件string.xml下的，需要建立不同的res目录
+// * 3、BASE_SERVER_URL    = 基础服务器地址，在自动创建BuildConfig下
+// * 4、APP_File_Provider  = 文件provider，一般是包名+fileprovider命名
+// * 5、其他所需要配置的百度Key，极光推送key，友盟key等等...
+// * */
+//
+//productFlavors {
+//
+//    yyb {
+//        dimension "app"
+//        applicationId ApplicationId
+//        resValue "string", "app_name", app_name
+//        buildConfigField "String", "BASE_SERVER_URL", base_server_url
+//        //manifest里面的值
+//        manifestPlaceholders = [
+//                app_icon           : app_icon_str,
+//                icon               : app_icon_str,
+//                UMENG_CHANNEL_VALUE: "yyb",
+//                UMENG_APPKEY_VALUE : umeng_appkey_value,
+//                JPUSH_APPKEY_VALUE : jpush_appkey_value,
+//                JPUSH_CHANNEL_VALUE: jpush_channel_value,
+//                GAODE_APPKEY_VALUE : gaode_appkey_value,
+//
+//        ]
+//    }
+//}
+
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation project(path: ':common_base')
+
+    // 如果 app 主工程中使用了 Arouter 注解，那就需要这个 annotationProcessor
+    annotationProcessor rootProject.ext.dependencies['arouter_com']
+    annotationProcessor rootProject.ext.dependencies['glideCompiler']
+    annotationProcessor rootProject.ext.dependencies['butterknifeCompiler']
+    implementation files('libs\\AMap3DMap_6.9.0_AMapNavi_6.8.0_AMapSearch_6.9.0_AMapTrack_1.1.0_AMapLocation_4.6.0_20190530.jar')
+}

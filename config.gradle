@@ -1,0 +1,84 @@
+/**
+ 引用步骤：
+ (1) 在 project 下的 build.gradle 文件第一行添加 apply from : "config.gradle"
+ (2) 在各个 module 中用 implemetions rootProject.ext.dependencies['xxx'] 和 annotationProcessor rootProject.ext..dependencies['xxx']
+ **/
+ext {
+    android = [
+            applicationId    : 'cn.sesone.dianshifu_user',
+            compileSdkVersion: 29,
+            buildToolsVersion: "29.0.0",
+            minSdkVersion    : 21,
+            targetSdkVersion : 29,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+
+    url = [
+            devUrl  : "\"http://192.168.2.19:8081/\"",
+            url     : "\"https://www.lingshenzhineng.com/\"",
+            localUrl: "\"http://192.168.2.19:8081/\""
+    ]
+
+    libsVersion = [
+            appcompat                : "1.0.2",
+            constraintlayout         : "1.1.3",
+            design                   : "28.0.0",
+            glide                    : "4.9.0",
+            gson                     : "2.8.5",
+            butterknife              : "10.1.0",
+            immersionbar             : "3.0.0-beta05",
+            multidex                 : "1.0.3",
+            retrofit                 : "2.6.0",
+            persistent_cookie        : "v1.0.1",
+            rxandroid                : "2.1.1",
+            rxjava                   : "2.2.10",
+            okhttp                   : "4.0.1",
+            rxpermissions            : "0.10.2",
+            eventbus                 : "3.1.1",
+            arouter_api              : "1.5.0",
+            arouter_com              : "1.2.2",
+            rxlifecycle              : "3.0.0",
+
+
+
+            slidableactivity         : "2.0.6",
+            support_dynamic_animation: "28.0.0",
+            ShortcutBadger           : "1.1.22@aar",
+    ]
+
+    dependencies = [
+
+            appcompat                : "androidx.appcompat:appcompat:${libsVersion.appcompat}",
+            constraintlayout         : "androidx.constraintlayout:constraintlayout:${libsVersion.constraintlayout}",
+            design                   : "com.android.support:design:${libsVersion.design}",
+            glide                    : "com.github.bumptech.glide:glide:${libsVersion.glide}",
+            gson                     : "com.google.code.gson:gson:${libsVersion.gson}",
+            glideCompiler            : "com.github.bumptech.glide:compiler:${libsVersion.glide}",
+            butterknife              : "com.jakewharton:butterknife:${libsVersion.butterknife}",
+            butterknifeCompiler      : "com.jakewharton:butterknife-compiler:${libsVersion.butterknife}",
+            immersionbar             : "com.gyf.immersionbar:immersionbar:${libsVersion.immersionbar}",
+            multidex                 : "com.android.support:multidex:${libsVersion.multidex}",
+            retrofit                 : "com.squareup.retrofit2:retrofit:${libsVersion.retrofit}",
+            persistent_cookie        : "com.github.franmontiel:PersistentCookieJar:${libsVersion.persistent_cookie}",
+            rxandroid                : "io.reactivex.rxjava2:rxandroid:${libsVersion.rxandroid}",
+            rxjava                   : "io.reactivex.rxjava2:rxjava:${libsVersion.rxjava}",
+            converter_gson           : "com.squareup.retrofit2:converter-gson:${libsVersion.retrofit}",
+            adapter_rxjava           : "com.squareup.retrofit2:adapter-rxjava2:${libsVersion.retrofit}",
+            okhttp                   : "com.squareup.okhttp3:okhttp:${libsVersion.okhttp}",
+            interceptor_logging      : "com.squareup.okhttp3:logging-interceptor:${libsVersion.okhttp}",
+            rxpermissions            : "com.github.tbruyelle:rxpermissions:${libsVersion.rxpermissions}",
+            eventbus                 : "org.greenrobot:eventbus:${libsVersion.eventbus}",
+            arouter_api              : "com.alibaba:arouter-api:${libsVersion.arouter_api}",
+            arouter_com              : "com.alibaba:arouter-compiler:${libsVersion.arouter_com}",
+            rxlifecycle              : "com.trello.rxlifecycle3:rxlifecycle:${libsVersion.rxlifecycle}",
+            rxlifecycle_comp         : "com.trello.rxlifecycle3:rxlifecycle-android:${libsVersion.rxlifecycle}",
+            components               : "com.trello.rxlifecycle3:rxlifecycle-components:${libsVersion.rxlifecycle}",
+
+
+            slidableactivity         : "com.r0adkll:slidableactivity:${libsVersion.slidableactivity}",
+            support_dynamic_animation: "com.android.support:support-dynamic-animation:${libsVersion.support_dynamic_animation}",
+            ShortcutBadger           : "me.leolin:ShortcutBadger:${libsVersion.ShortcutBadger}",
+            blurry                   : "jp.wasabeef:blurry:${libsVersion.blurry}"
+    ]
+}

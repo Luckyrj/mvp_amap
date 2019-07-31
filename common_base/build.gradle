@@ -1,0 +1,84 @@
+apply plugin: 'com.android.library'
+
+android {
+    // rootProject.ext.android['compileSdkVersion']
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+                includeCompileClasspath = true
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            buildConfigField( "String", "BASE_SERVER_URL", rootProject.url.url)
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField ("String", "BASE_SERVER_URL", rootProject.url.devUrl)
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api rootProject.ext.dependencies['appcompat']
+    api rootProject.ext.dependencies['constraintlayout']
+    api rootProject.ext.dependencies['design']
+
+    api rootProject.ext.dependencies['gson']
+    api rootProject.ext.dependencies['retrofit']
+    api rootProject.ext.dependencies['persistent_cookie']
+    api rootProject.ext.dependencies['rxandroid']
+    api rootProject.ext.dependencies['rxjava']
+    api rootProject.ext.dependencies['rxlifecycle']
+    api rootProject.ext.dependencies['rxlifecycle_comp']
+    api rootProject.ext.dependencies['components']
+    api rootProject.ext.dependencies['converter_gson']
+    api rootProject.ext.dependencies['adapter_rxjava']
+    api rootProject.ext.dependencies['okhttp']
+    api rootProject.ext.dependencies['interceptor_logging']
+    api rootProject.ext.dependencies['glide']
+    api rootProject.ext.dependencies['immersionbar']
+    api rootProject.ext.dependencies['rxpermissions']
+    api ('com.alibaba.android:vlayout:1.2.8@aar') {
+        transitive = true
+    }
+    api 'com.hyman:flowlayout-lib:1.1.2'
+    annotationProcessor rootProject.ext.dependencies['glideCompiler']
+
+    // butterknife
+    api rootProject.ext.dependencies['butterknife']
+    annotationProcessor rootProject.ext.dependencies['butterknifeCompiler']
+    api rootProject.ext.dependencies['eventbus']
+    // arouter
+    api rootProject.ext.dependencies['arouter_api']
+    annotationProcessor rootProject.ext.dependencies['arouter_com']
+//    api rootProject.ext.dependencies['banner']
+//    api rootProject.ext.dependencies['greendao']
+//    api rootProject.ext.dependencies['smart-refreshlayout']
+//    api rootProject.ext.dependencies['photoview']
+//    api rootProject.ext.dependencies['andpermission']
+//    api rootProject.ext.dependencies['eventbus']
+//    api rootProject.ext.dependencies['aspectj']
+
+}
